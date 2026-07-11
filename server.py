@@ -1,14 +1,12 @@
 from flask import Flask, request, jsonify
 import os
-import google.generativeai as genai
+from google import genai
 
 app = Flask(__name__)
 
-# Load Gemini API key from Railway Variables
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
-
-# Select Gemini model
-model = genai.GenerativeModel("gemini-2.0-flash")
+client = genai.Client(
+    api_key=os.environ.get("GEMINI_API_KEY")
+)
 
 @app.route("/")
 def home():
@@ -22,7 +20,10 @@ def ask():
         return jsonify({"error": "No message provided"}), 400
 
     try:
-        response = model.generate_content(message)
+        response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=message
+        )
 
         return jsonify({
             "reply": response.text
