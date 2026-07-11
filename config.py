@@ -13,7 +13,7 @@ class Config:
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
     # Gemini Model
-    GEMINI_MODEL = "gemini-2.5-flash"
+    GEMINI_MODEL = "gemini-flash-latest"
 
     # Conversation Memory
     MAX_HISTORY = 15
