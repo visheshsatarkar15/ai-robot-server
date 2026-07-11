@@ -1,18 +1,20 @@
 from gtts import gTTS
-from io import BytesIO
+from pathlib import Path
+import uuid
+
+AUDIO_DIR = Path("audio")
+AUDIO_DIR.mkdir(exist_ok=True)
 
 
 def text_to_speech(text: str):
-    tts = gTTS(
+    filename = f"{uuid.uuid4()}.mp3"
+
+    filepath = AUDIO_DIR / filename
+
+    gTTS(
         text=text,
         lang="en",
         slow=False
-    )
+    ).save(filepath)
 
-    audio = BytesIO()
-
-    tts.write_to_fp(audio)
-
-    audio.seek(0)
-
-    return audio
+    return filename
