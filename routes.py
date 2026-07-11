@@ -1,5 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
+from fastapi import Depends
+from auth import verify_device
 
 from gemini_service import ask_gemini
 
@@ -11,7 +13,10 @@ class ChatRequest(BaseModel):
 
 
 @router.post("/chat")
-async def chat(request: ChatRequest):
+async def chat(
+    request: ChatRequest,
+    _: None = Depends(verify_device)
+):
 
     reply = ask_gemini(request.message)
 
