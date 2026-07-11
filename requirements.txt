@@ -3,3 +3,4 @@ uvicorn[standard]==0.35.0
 google-genai==1.31.0
 python-multipart==0.0.20
 gtts
+aiofiles
