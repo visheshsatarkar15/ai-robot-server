@@ -4,8 +4,10 @@ from google import genai
 
 app = FastAPI(title="IRIS Server v1.0")
 
+from config import Config
+
 client = genai.Client(
-    api_key=os.environ.get("GEMINI_API_KEY")
+    api_key=Config.GEMINI_API_KEY
 )
 
 @app.get("/")
