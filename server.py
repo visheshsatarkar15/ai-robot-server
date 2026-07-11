@@ -46,13 +46,13 @@ def audio_chat():
         # We specify the mime_type so Gemini knows how to read it (e.g., audio/wav or audio/mp3)
         mime_type = audio_file.content_type or "audio/wav"
         
-        response = model.generate_content([
-            {
-                "mime_type": mime_type,
-                "data": audio_data
-            },
-            "You are IRIS, a helpful robot companion. Listen to the user's audio query and reply back with short, conversational speech."
-        ])
+       response = model.generate_content([
+    {
+        "mime_type": mime_type,
+        "data": audio_data
+    },
+    "You are IRIS, a helpful robot companion. Listen to the user's audio query and reply back with short, conversational speech. CRITICAL: Use a deep, masculine sounding voice for your output."
+])
         
         # 4. Extract the spoken audio parts from Gemini's response
         audio_bytes = None
