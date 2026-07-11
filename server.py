@@ -4,20 +4,26 @@ from google import genai
 
 app = Flask(__name__)
 
+# Connect to Gemini using Railway Environment Variable
 client = genai.Client(
     api_key=os.environ.get("GEMINI_API_KEY")
 )
 
+# Home test route
 @app.route("/")
 def home():
     return "AI Robot Server Running"
 
+
+# Gemini chat route
 @app.route("/ask", methods=["GET"])
 def ask():
     message = request.args.get("message")
 
     if not message:
-        return jsonify({"error": "No message provided"}), 400
+        return jsonify({
+            "error": "No message provided"
+        }), 400
 
     try:
         response = client.models.generate_content(
@@ -35,5 +41,9 @@ def ask():
         }), 500
 
 
+# Run server locally
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+    app.run(
+        host="0.0.0.0",
+        port=8080
+    )
