@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from fastapi.responses import StreamingResponse
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from auth import verify_device
@@ -12,10 +12,6 @@ router = APIRouter()
 class ChatRequest(BaseModel):
     message: str
 
-
-# --------------------------------------------------
-# TEXT ENDPOINT (Used for testing)
-# --------------------------------------------------
 
 @router.post("/chat")
 async def chat(
@@ -30,10 +26,6 @@ async def chat(
     }
 
 
-# --------------------------------------------------
-# SPEECH ENDPOINT (Used by IRIS Robot)
-# --------------------------------------------------
-
 @router.post("/speak")
 async def speak(
     request: ChatRequest,
@@ -41,9 +33,19 @@ async def speak(
 ):
     reply = ask_gemini(request.message)
 
-    audio = text_to_speech(reply)
+    filename = text_to_speech(reply)
 
-    return StreamingResponse(
-        audio,
+    return {
+        "success": True,
+        "reply": reply,
+        "audio_url": f"/audio/{filename}"
+    }
+
+
+@router.get("/audio/{filename}")
+async def get_audio(filename: str):
+
+    return FileResponse(
+        f"audio/{filename}",
         media_type="audio/mpeg"
     )
