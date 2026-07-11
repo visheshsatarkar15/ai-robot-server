@@ -16,7 +16,7 @@ class Config:
     GEMINI_MODEL = "gemini-2.5-flash"
 
     # Conversation Memory
-    MAX_HISTORY = 10
+    MAX_HISTORY = 15
 
     # Maximum response length
     MAX_RESPONSE_TOKENS = 200
