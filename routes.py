@@ -38,7 +38,7 @@ async def speak(
     return {
         "success": True,
         "reply": reply,
-        "audio_url": f"/audio/{filename}"
+        "audio_url": f"https://generous-perception-production-880c.up.railway.app/audio/{filename}"
     }
 
 
