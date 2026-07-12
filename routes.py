@@ -26,20 +26,21 @@ async def chat(
     }
 
 
-@router.post("/speak")
+from fastapi.responses import FileResponse
+
+@router.get("/speak")
 async def speak(
-    request: ChatRequest,
+    message: str,
     _: None = Depends(verify_device)
 ):
-    reply = ask_gemini(request.message)
+    reply = ask_gemini(message)
 
     filename = text_to_speech(reply)
 
-    return {
-        "success": True,
-        "reply": reply,
-        "audio_url": f"https://generous-perception-production-880c.up.railway.app/audio/{filename}"
-    }
+    return FileResponse(
+        f"audio/{filename}",
+        media_type="audio/mpeg"
+    )
 
 
 @router.get("/audio/{filename}")
